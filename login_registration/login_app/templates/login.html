@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login & Registration</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<div id="registration">
+		<h1 class="title">Registration</h1>
+		<div id="label">
+			<p>First Name</p>
+			<p>Last Name</p>
+			<p>Email</p>
+			<p>Password</p>
+			<p>Confirm PW</p>
+		</div>
+		<div id="form">
+			<form action="/register" method="POST">
+				<input type="text" name="first_name">
+				<input type="text" name="lase_name">
+				<input type="text" name="email">
+				<input type="text" name="password">
+				<input type="text" name="confirm">
+				<button type="submit">Register</button>
+			</form>
+		</div>
+	</div>
+	<div id="login">
+		<h1 class="title">Registration</h1>
+		<div id="label">
+			<p>Email</p>
+			<p>Password</p>
+		</div>
+		<div id="form">
+			<form action="/login" method="POST">
+				<input type="text" name="email">
+				<input type="text" name="password">
+				<button type="submit">Login</button>
+			</form>
+			
+		</div>
+	</div>
+</body>
+</html>
