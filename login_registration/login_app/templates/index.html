@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login & Registration</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="registration">
+			{% if messages %}
+			<ul class="messages">    
+			    {% for message in messages %}    
+			        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			    {% endfor %}
+			</ul>
+			{% endif %}
+			<h1 class="title">Registration</h1>
+			<div class="label">
+				<p>First Name</p>
+				<p>Last Name</p>
+				<p>Email</p>
+				<p>BirthDate</p>
+				<p>Password</p>
+				<p>Confirm PW</p>
+			</div>
+			<div class="form">
+				<form action="/register" method="POST">
+					{% csrf_token %}
+					<input type="text" name="first_name">
+					<input type="text" name="last_name">
+					<input type="text" name="email">
+					<input type="date" name="birthday">
+					<input type="password" name="password">
+					<input type="password" name="confirm">
+					<button type="submit">Register</button>
+				</form>
+			</div>
+		</div>
+		<div id="login">
+			{% if messages %}
+			<ul class="messages">    
+			    {% for message in messages %}    
+			        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			    {% endfor %}
+			</ul>
+			{% endif %}
+			<h1 class="title">Login</h1>
+			<div class="label">
+				<p>Email</p>
+				<p>Password</p>
+			</div>
+			<div class="form">
+				<form action="/login" method="POST">
+					{% csrf_token %}
+					<input type="password" name="email">
+					<input type="password" name="password">
+					<button type="submit">Login</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
