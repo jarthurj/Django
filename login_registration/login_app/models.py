@@ -1,21 +1,29 @@
 from django.db import models
 from django.contrib import messages
 import re
+import datetime
+from datetime import date,timedelta
 
 class UserManager(models.Manager):
 	def register_validation(self, postData):
+		birthday = date.fromisoformat(postData['birthday'])
+		delta_thirteen = date.today() - timedelta(4732)
 		EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 		errors = {}
+		if postData['email'] in User.objects.filter(email=postData['email']):
+			errors['user_exist'] = "User already exists"
 		if len(postData['first_name']) < 3:
 			errors['first_name'] = "First name must be more than 2 characters"
 		if len(postData['last_name']) < 3:
 			errors['last_name'] = "Last name must be more than 2 characters"
 		if postData['password'] != postData['confirm']:
 			errors['password'] = "Passwords do not match!"
-		if not EMAIL_REGEX.match(postData['email']):    # test whether a field matches the pattern            
-			errors['email'] = ("Invalid email address!")
+		# if not EMAIL_REGEX.match(postData['email']):    # test whether a field matches the pattern            
+		# 	errors['email'] = "Invalid email address!"
 		if len(postData['password']) < 8:
 			errors['passlen'] = "Password must be longer than 8 characters"
+		if birthday > delta_thirteen:
+			errors['birthday'] = "You must be at least 13 years old to register"
 		return errors
 
 

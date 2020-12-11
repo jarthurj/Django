@@ -30,18 +30,25 @@ def process_login(request):
 	if user:
 		logged_user = user[0]
 		if bcrypt.checkpw(request.POST['password'].encode(), logged_user.hashed_pw.encode()):
-			request.session['first_name'] = logged_user.first_name
-			request.session['email'] = logged_user.email
+			request.session['userid'] = logged_user.id
 			return redirect('/success')
 		else:
 			messages.error(request, "Passord Incorrect")
+			return redirect('/')
 	else:
 		messages.error(request, "Email not found")
 		return redirect("/")
 
 
 def success(request):
-	return render(request, 'success.html')
+	if 'userid' in request.session:
+		user = User.objects.filter(id = request.session['userid'])
+		if user:
+			context = {
+				'first_name':user[0].first_name
+			}
+			return render(request, 'success.html')
+	return redirect('/')
 
 def log_out(request):
 	request.session.flush()
