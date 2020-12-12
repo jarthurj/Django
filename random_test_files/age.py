@@ -15,14 +15,24 @@ def age_verification(birthday):
 			return False
 		else:
 			day_diff = today.day - birthday.day 
-			if day_diff > 0:
+			if day_diff < 0:
 				print("turning 13 this month")
 				return False
 			else:
 				return True
 
 
-birthday = date.fromisoformat('2007-12-12')
-
+birthday = date.fromisoformat('2007-12-13')
+print(birthday.day)
+print(date.today().day)
 age_verification(birthday)
+
+if not age_verification(birthday):
+	print("you are not 13!!")
+	print("you are not 13!!")
+	print("you are not 13!!")
+else:
+	print("you are 13!!")
+	print("you are 13!!")
+	print("you are 13!!")
 
