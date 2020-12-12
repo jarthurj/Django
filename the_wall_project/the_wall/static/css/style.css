@@ -1,0 +1,33 @@
+#wrapper{
+	width:90%;
+	margin:auto;
+	display: flex;
+	justify-content: space-between;
+}
+#registration, #login{
+	display: inline-block;
+	width:30%;
+	border-style: solid;
+	border-color: black;
+	border-width: 2px;
+	padding:40px;
+}
+
+.label,.form{
+	display: inline-block;
+	vertical-align: top;
+}
+
+input{
+	display: block;
+	margin-left:10px;
+	margin-bottom: 10px;
+}
+p{
+	display: block;
+	margin-bottom: 17px;
+}
+h1{
+	text-align: center;
+	vertical-align: top;
+}

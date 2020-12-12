@@ -1,0 +1,23 @@
+#wrapper{
+	width: 90%;
+	margin:auto;
+}
+.message{
+	width:100%;
+	margin:auto;
+}
+.comment_div{
+	width:80%;
+	margin-left:40px;
+}
+.comment_text,.message_form{
+
+	margin-left: 60px;
+}
+
+textarea{
+	resize: none;
+}
+.name{
+	color:red;
+}

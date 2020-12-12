@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/wall.css' %}">
+</head>
+<body>
+	<header>
+		<h1>Coding Dojo Wall</h1>
+		<h2>Welcome {{request.session.name}}</h2>
+		<a href="/log_off">log off</a>
+		<hr>
+	</header>
+
+
+	<div id="wrapper">
+		<div>
+			<h1>Post a message</h1>
+			<form action="post_message" method="POST">
+				{% csrf_token %}
+				<p><textarea name="new_message" rows="4" cols="50"></textarea></p>
+				<button type="submit">Post a message</button>
+			</form>
+		</div>
+		{% for message in wall_messages.all %}
+			<h1 class="name">{{message.user.first_name}} {{message.user.last_name}} {{message.updated_date}}|</h1>
+			<hr>
+			<div class="message">
+				<p>{{message.message}}</p>
+				<hr>
+			</div>
+			{% for comment in message.comments.all %}			
+				<div class="comment_div">
+					<h1 class="name">{{comment.user.first_name}} {{comment.user.last_name}} {{comment.updated_date}}|</h1>
+					<hr>
+						<p class="comment_text">{{comment.comment}}</p>
+						<hr>
+				</div>
+			{% endfor %}
+			<form action="post_comment/{{message.id}}" method="POST" class="message_form">
+				{% csrf_token %}
+				<p><textarea name="new_comment" rows="4" cols="50"></textarea></p>
+				<button type="submit">Post a commnet</button>
+			</form>
+		{% endfor %}
+		
+	</div>
+
+</body>
+</html>
