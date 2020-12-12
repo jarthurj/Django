@@ -10,7 +10,8 @@ class UserManager(models.Manager):
 		delta_thirteen = date.today() - timedelta(4732)
 		EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 		errors = {}
-		if postData['email'] in User.objects.filter(email=postData['email']):
+		email_exist = User.objects.filter(email=postData['email'])
+		if postData['email'] == email_exist[0].email :
 			errors['user_exist'] = "User already exists"
 		if len(postData['first_name']) < 3:
 			errors['first_name'] = "First name must be more than 2 characters"
