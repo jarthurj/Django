@@ -7,7 +7,7 @@ from datetime import date,timedelta
 class UserManager(models.Manager):
 	def register_validation(self, postData):
 		birthday = date.fromisoformat(postData['birthday'])
-		delta_thirteen = date.today() - timedelta(4732)
+		# delta_thirteen = date.today() - timedelta(days=4745)
 		EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 		errors = {}
 		email_exist = User.objects.filter(email=postData['email'])
@@ -24,9 +24,30 @@ class UserManager(models.Manager):
 		# 	errors['email'] = "Invalid email address!"
 		if len(postData['password']) < 8:
 			errors['passlen'] = "Password must be longer than 8 characters"
-		if birthday > delta_thirteen:
+
+
+		if not UserManager.age_verification(birthday):
 			errors['birthday'] = "You must be at least 13 years old to register"
+
+
 		return errors
+	def age_verification(birthday):
+		today = date.today()
+		year_diff = today.year - birthday.year
+
+		if year_diff < 13:
+			return False
+		else:
+			month_diff = today.month - birthday.month
+			if month_diff < 0:
+				return False
+			else:
+				day_diff = today.day - birthday.day 
+				if day_diff < 0:
+					return False
+				else:
+					return True
+
 
 
 class User(models.Model):
@@ -44,6 +65,8 @@ class Message(models.Model):
 	user = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+	def __str__(self):
+		return f"{self.updated_at}"
 
 
 class Comment(models.Model):
@@ -51,5 +74,7 @@ class Comment(models.Model):
 	user = models.ForeignKey(User, related_name="comments", on_delete = models.CASCADE)
 	message = models.ForeignKey(Message, related_name="comments", on_delete = models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
+	updated_at = models.DateTimeField(auto_now=True)	
+	def __str__(self):
+		return f"{self.updated_at}"
 

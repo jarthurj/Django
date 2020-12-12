@@ -13,7 +13,13 @@
 		<a href="/log_off">log off</a>
 		<hr>
 	</header>
-
+	{% if messages %}
+	<ul class="messages">    
+	    {% for message in messages %}    
+	        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
 
 	<div id="wrapper">
 		<div>
@@ -29,6 +35,11 @@
 			<hr>
 			<div class="message">
 				<p>{{message.message}}</p>
+				{% if message.user.id == request.session.userid %}
+				<form action="/delete/message/{{message.id}}" method="GET">
+					<button type="submit">Delete</button>
+				</form>
+				{% endif %}
 				<hr>
 			</div>
 			{% for comment in message.comments.all %}			
@@ -36,6 +47,11 @@
 					<h1 class="name">{{comment.user.first_name}} {{comment.user.last_name}} {{comment.updated_date}}|</h1>
 					<hr>
 						<p class="comment_text">{{comment.comment}}</p>
+						{% if comment.user.id == request.session.userid %}
+						<form action="/delete/comment/{{comment.id}}" method="GET">
+							<button type="submit">Delete</button>
+						</form>
+						{% endif %}
 						<hr>
 				</div>
 			{% endfor %}
