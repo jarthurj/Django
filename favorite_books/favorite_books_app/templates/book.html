@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/welcome.css' %}">
+</head>
+<body>
+	<header>
+		<h2 id="welcome_text" class="head_text">Welcome {{request.session.first_name}}</h2>
+		<a href="/log_off" class="head_text" id="logoff">log off</a>
+		<hr>
+	</header>
+	{% if messages %}
+	<ul class="messages">    
+	    {% for message in messages %}    
+	        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+
+	<div id="wrapper">
+		<div id="edit_book">
+			<form action="/process_edit" method="POST">
+				{% csrf_token %}
+				<input type="text" name="title" value="{{book.title}}">
+				<input type="hidden" name="book_id" value="{{book.id}}">
+				<p>Added by: {{book.user.first_name}} {{book.user.last_name}}</p>
+				<p>Added on: {{book.created_at}}</p>
+				<p>Updated on: {{book.updated_at}}</p>
+				<p>Description:</p>
+				<p><textarea name="description" rows="4" cols="30" >{{book.description}}</textarea></p>
+				<button type="submit">Update</button> 				<!--button for updating info of book in database-->
+			</form>
+			<form action="/delete_book/{{book.id}}" method="GET"><!--button for deleting book from database-->
+				<button type="submit">Delete</button>
+			</form>
+		</div>
+		<div id="users_block">
+			<h1>User Who Like This Book</h1>
+			<ul>
+			{% for user in book.user_favorite.all %}
+				{% if user.id == request.session.userid %}
+					<li>{{user.first_name}} {{user.last_name}} <a href="/unfavorite/{{book.id}}">unfavorite</a></li>
+				{% else %}
+					<li>{{user.first_name}} {{user.last_name}}</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+		</div>
+
+	</div>
+
+</body>
+</html>

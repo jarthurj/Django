@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/welcome.css' %}">
+</head>
+<body>
+	<header>
+		<h2 id="welcome_text" class="head_text">Welcome {{request.session.first_name}}</h2>
+		<a href="/log_off" class="head_text" id="logoff">log off</a>
+		<hr>
+	</header>
+
+	<div id="wrapper">
+		<div id="edit_book">
+			<p>{{book.title}}</p>
+			<p>Added by: {{book.user.first_name}} {{book.user.last_name}}</p>
+			<p>Added on: {{book.created_at}}</p>
+			<p>Updated on: {{book.updated_at}}</p>
+			<p>Description:</p>
+			<p>{{book.description}}</p>
+
+		</div>
+		<div id="users_block">
+			<h1>User Who Like This Book</h1>
+			<ul>
+			{% for user in book.user_favorite.all %}
+				<li>{{user.first_name}} {{user.last_name}}</li>
+			{% endfor %}
+			</ul>
+			{% if book in favorites %}
+				<p>You favorited this book</p>
+			{% else %}
+				<a href="/fav_book/{{book.id}}">Add book to your favorites</a>
+			{% endif %}
+		</div>
+
+	</div>
+
+</body>
+</html>

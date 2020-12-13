@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<h1 id="welcome_text" class="head_text">{{name}}'s Favorite Books</h1>
+	<a href="/log_off" class="head_text" id="logoff">log off</a>
+	<hr>
+</head>
+<body>
+	{% for book in favorites %}
+		<p>Title: {{book.title}}</p>
+		<p>Added by: {{book.user.first_name}} {{book.user.last_name}}</p>
+		<p>Added on: {{book.created_at}}</p>
+		<p>Updated on: {{book.updated_at}}</p>
+		<p>Description:</p>
+		<p>{{book.description}}</p>
+		<hr>
+	{% endfor %}
+</body>
+</html>

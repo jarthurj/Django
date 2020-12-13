@@ -1,0 +1,14 @@
+#wrapper{
+	width:90%;
+	margin:auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+.label,.form{
+	display: inline-block;
+	vertical-align: top;
+}
+.head_text{
+	display: inline-block;
+}
